@@ -10,13 +10,14 @@ type Props = {
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: Props }> => {
   // if statuscode 401 (unauthorized) > show login page
-  console.log(ctx.req?.headers)
+  console.log("tried to call getserversideprops")
+  console.log("headers" + ctx.req?.headers)
   const res = await fetch('https://5q2hk4toq1.execute-api.us-west-2.amazonaws.com/prod/GetUser', {
     headers: {
       cookie: ctx.req?.headers.cookie ?? ''
     }
   })
-  //console.log(res)
+  console.log("res" + res)
   return {
     props: {
       isLoggedIn: res.status == 302
