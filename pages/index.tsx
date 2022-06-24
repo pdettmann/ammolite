@@ -3,6 +3,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
+import { responseSymbol } from 'next/dist/server/web/spec-compliant/fetch-event'
+import Layout from '../components/Layout'
 
 type Props = {
   isLoggedIn: boolean;
@@ -10,23 +12,21 @@ type Props = {
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: Props }> => {
   // if statuscode 401 (unauthorized) > show login page
-  console.log("tried to call getserversideprops")
-  console.log(ctx.req?.headers)
-  const res = await fetch('https://5q2hk4toq1.execute-api.us-west-2.amazonaws.com/prod/GetUser', {
+  const res = await fetch('https://api.ammonite-profiler.xyz/GetUser', {
     headers: {
-      cookie: ctx.req?.headers.cookie ?? ''
+      Cookie: ctx.req?.headers.cookie ?? ''
     }
   })
-  console.log(res)
   return {
     props: {
-      isLoggedIn: res.status == 302
+      isLoggedIn: res.status == 200
     }
   }
 }
 
 const Home: NextPage<Props> = (props: Props) => {
   return (
+    <Layout title="Profile">
     <div className={styles.container}>
       <Head>
         <title>ammonite-profiler</title>
@@ -47,12 +47,7 @@ const Home: NextPage<Props> = (props: Props) => {
         </p>
         <div>
             {
-              props.isLoggedIn ? <p>you are logged in! </p> :  <p className={styles.description}>
-              Log in/sign up
-              <Link href="https://ammonite-profiler.auth.us-west-2.amazoncognito.com/oauth2/authorize?client_id= 6jck0ji236o38dn2ea04bs758n&redirect_uri=https://5q2hk4toq1.execute-api.us-west-2.amazonaws.com/prod/SignInCallback&scope=profile%20email%20openid&response_type=code">
-                <a> here</a>
-              </Link>
-            </p>
+              props.isLoggedIn ? <Link href="/profile">Profile</Link> : <Link href="https://api.ammonite-profiler.xyz/Login">Log In/Sign Up</Link>
             }
         </div >
 
@@ -71,6 +66,7 @@ const Home: NextPage<Props> = (props: Props) => {
         </a>
       </footer>
     </div>
+    </Layout>
   )
 }
 

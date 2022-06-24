@@ -1,16 +1,69 @@
 import Link from 'next/link'
+import type { NextPage, NextPageContext } from 'next'
 import Layout from '../components/Layout'
 
-const Profile = () => (
-  <Layout title="Profile">
-    <h1>Profile</h1>
-    <p>This is the profile page</p>
-    <p>
-      <Link href="/">
-        <a>Go home</a>
-      </Link>
-    </p>
-  </Layout>
-)
+type Project = {
+  projectID: string,
+  apiKey: string,
+  date: number,
+  projectName: string,
+  userID: string
+}
+
+type Props = {
+  projects?: Project[];
+};
+
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: Props }> => {
+  try {
+    const res = await fetch('https://api.ammonite-profiler.xyz/GetProjects', {
+      headers: {
+        Cookie: ctx.req?.headers.cookie ?? ''
+      }
+    });
+    const data = await res.json();
+
+    return {
+      props: data
+    }
+  } catch (err) {
+    console.error(err)
+    return { props: {} }
+  }
+}
+
+const Profile: NextPage<Props> = (props: Props) => {
+  return (
+    <Layout title="Profile">
+      <h1>Profile</h1>
+      <p>
+        <Link href="/">
+          <a>Go home</a>
+        </Link>
+      </p>
+      <p>
+        <Link href="/edit_profile">
+          <a>Settings</a>
+        </Link>
+      </p>
+      <div>
+        {
+          props == {} ? <p> No projects yet </p> :
+          <ul>
+            {props.projects?.map((prop) => (
+                  <li key={prop.projectID}>
+                    <Link href={{pathname: `/projects/${encodeURIComponent(prop.projectID)}`, query: {projectName: prop.projectName}}}>
+                      <a>{prop.projectName}</a>
+                    </Link>
+                  </li>
+                )
+              )
+            }
+          </ul>
+        }
+      </div>
+    </Layout>
+  )
+}
 
 export default Profile
