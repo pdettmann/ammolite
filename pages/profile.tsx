@@ -42,7 +42,7 @@ const Profile: NextPage<Props> = (props: Props) => {
         </Link>
       </p>
       <p>
-        <Link href="/edit_profile">
+        <Link href="/editProfile">
           <a>Settings</a>
         </Link>
       </p>

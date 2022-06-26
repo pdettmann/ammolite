@@ -1,8 +1,8 @@
-import Link from 'next/link'
-import type { NextPage, NextPageContext  } from 'next'
+import type { NextPage  } from 'next'
 import Layout from '../components/Layout'
 import { FormEvent, useState } from 'react'
 import { useRouter } from 'next/router'
+import axios from 'axios'
 
 const EditProfile: NextPage = () => {
   const [ email, setEmail ] = useState<string>()
@@ -11,60 +11,56 @@ const EditProfile: NextPage = () => {
   const router = useRouter()
 
   const handleEmailSubmit = async (event: FormEvent) => {
-      // Stop the form from submitting and refreshing the page.
-      event.preventDefault()
+    // Stop the form from submitting and refreshing the page.
+    event.preventDefault()
 
-      const JSONdata = JSON.stringify({email: email})
+    const url = 'https://api.ammonite-profiler.xyz/UpdateUser'
 
-      const endpoint = 'https://api.ammonite-profiler.xyz/UpdateUser'
-
-      const options = {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
+    try {
+      const { status } = await axios.put(
+        url,
+        { email: email },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          withCredentials: true,
         },
-        body: JSONdata,
+      );
+      console.log(status)
+      if (status == 200){
+        return router.push('/verifyEmail')
       }
-
-      const response = await fetch(endpoint, options)
-
-      const result = await response.json()
-      if (result.status == 200){
-        return router.push("/verifyEmail")
-      }
+    } catch(err) {
+      console.error(err)
+      alert('email could not be changed')
+    }
   }
 
   const handlePasswordSubmit = async (event: FormEvent) => {
     // Stop the form from submitting and refreshing the page.
     event.preventDefault()
 
-    // Get data from the form.
-    const data = {
-      previousPassword: previousPassword,
-      proposedPassword: previousPassword
-    }
+    const url = 'https://api.ammonite-profiler.xyz/ChangePassword'
 
-    const JSONdata = JSON.stringify(data)
-
-    const endpoint = 'https://api.ammonite-profiler.xyz/ChangePassword'
-
-    const options = {
-    method: 'PUT',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSONdata,
-    }
-
-    const response = await fetch(endpoint, options)
-
-    const result = await response.json()
-    if (result.status == 200) {
-      return (
-        <Layout title="Edit Profile">
-            <h1>Password changed successfully</h1>
-        </Layout>
-      )
+    try {
+      const { status } = await axios.put(
+        url,
+        { previousPassword, proposedPassword },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          withCredentials: true,
+        },
+      );
+      if (status == 200){
+        return alert('password changed successfully!')
+      }
+    } catch(err) {
+      console.error(err)
     }
   }
   return (
