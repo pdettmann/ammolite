@@ -46,13 +46,19 @@ const Profile: NextPage<Props> = (props: Props) => {
           <a>Settings</a>
         </Link>
       </p>
+      <h2>Projects</h2>
+      <p>
+        <Link href="/createProject">
+          <a>Add new project</a>
+        </Link>
+      </p>
       <div>
         {
           props == {} ? <p> No projects yet </p> :
           <ul>
             {props.projects?.map((prop) => (
                   <li key={prop.projectID}>
-                    <Link href={{pathname: `/projects/${encodeURIComponent(prop.projectID)}`, query: {projectName: prop.projectName}}}>
+                    <Link href={{pathname: `/projects/${encodeURIComponent(prop.projectID)}`}}>
                       <a>{prop.projectName}</a>
                     </Link>
                   </li>
