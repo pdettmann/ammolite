@@ -28,7 +28,6 @@ const EditProfile: NextPage = () => {
           withCredentials: true,
         },
       );
-      console.log(status)
       if (status == 200){
         return router.push('/verifyEmail')
       }
