@@ -4,11 +4,11 @@ import { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
-type Project = {
-    status: number,
-    projectID: string,
-    apiKey: string,
-}
+// type Project = {
+//     status: number,
+//     projectID: string,
+//     apiKey: string,
+// }
 
 const CreateProject: NextPage = () => {
     const [ projectName, setProjectName ] = useState<string>()
@@ -32,8 +32,6 @@ const CreateProject: NextPage = () => {
                 withCredentials: true,
                 },
             );
-            console.log(status)
-            console.log(data)
             const projectID = data.projectID;
             if (status == 200){
                 return router.push(`/projects/${encodeURIComponent(projectID)}`)

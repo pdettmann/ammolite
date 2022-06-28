@@ -3,15 +3,13 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-import { responseSymbol } from 'next/dist/server/web/spec-compliant/fetch-event'
 import Layout from '../components/Layout'
 
-type Props = {
+export type Props = {
   isLoggedIn: boolean;
 };
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: Props }> => {
-  // if statuscode 401 (unauthorized) > show login page
   const res = await fetch('https://api.ammonite-profiler.xyz/GetUser', {
     headers: {
       Cookie: ctx.req?.headers.cookie ?? ''
@@ -47,7 +45,7 @@ const Home: NextPage<Props> = (props: Props) => {
         </p>
         <div>
             {
-              props.isLoggedIn ? <Link href="/profile">Profile</Link> : <Link href="https://api.ammonite-profiler.xyz/Login">Log In/Sign Up</Link>
+              props.isLoggedIn ? <Link href="/profile" aria-label="Link to profile page">Profile</Link> : <Link href="https://api.ammonite-profiler.xyz/Login" aria-label="Link to login page" role="link">Log In/Sign Up</Link>
             }
         </div >
 
