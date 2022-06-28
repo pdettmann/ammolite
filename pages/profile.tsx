@@ -37,11 +37,6 @@ const Profile: NextPage<Props> = (props: Props) => {
     <Layout title="Profile">
       <h1>Profile</h1>
       <p>
-        <Link href="/">
-          <a>Go home</a>
-        </Link>
-      </p>
-      <p>
         <Link href="/editProfile">
           <a>Settings</a>
         </Link>
