@@ -1,82 +1,54 @@
 import type { NextPage  } from 'next'
 import Layout from '../components/Layout'
 import { FormEvent, useState } from 'react'
-import { useRouter } from 'next/router'
-import axios from 'axios'
+import { NextRouter, useRouter } from 'next/router'
+import { changeEmailSubmit, changePasswordSubmit } from '../lib/form'
+
+const handleEmailSubmit = async (event: FormEvent, email: string, router: NextRouter) => {
+  // Stop the form from submitting and refreshing the page.
+  event.preventDefault()
+
+  const status = await changeEmailSubmit(email)
+  if (status == 200){
+    return router.push('/verifyEmail')
+  } else {
+    throw new Error(`Status: ${status}`);
+  }
+}
+
+const handlePasswordSubmit = async (event: FormEvent, previousPassword: string, proposedPassword: string, router: NextRouter) => {
+  event.preventDefault()
+
+  const status = await changePasswordSubmit(previousPassword, proposedPassword)
+    if (status == 200){
+      alert('password changed successfully!')
+      return router.push('/profile')
+    } else {
+      throw new Error(`Status: ${status}`);
+    }
+}
 
 const EditProfile: NextPage = () => {
-  const [ email, setEmail ] = useState<string>()
-  const [ previousPassword, setPreviousPassword ] = useState<string>()
-  const [ proposedPassword, setProposedPassword ] = useState<string>()
+  const [ email, setEmail ] = useState<string>("")
+  const [ previousPassword, setPreviousPassword ] = useState<string>("")
+  const [ proposedPassword, setProposedPassword ] = useState<string>("")
   const router = useRouter()
 
-  const handleEmailSubmit = async (event: FormEvent) => {
-    // Stop the form from submitting and refreshing the page.
-    event.preventDefault()
-
-    const url = 'https://api.ammonite-profiler.xyz/UpdateUser'
-
-    try {
-      const { status } = await axios.put(
-        url,
-        { email: email },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          withCredentials: true,
-        },
-      );
-      if (status == 200){
-        return router.push('/verifyEmail')
-      }
-    } catch(err) {
-      console.error(err)
-      alert('email could not be changed')
-    }
-  }
-
-  const handlePasswordSubmit = async (event: FormEvent) => {
-    // Stop the form from submitting and refreshing the page.
-    event.preventDefault()
-
-    const url = 'https://api.ammonite-profiler.xyz/ChangePassword'
-
-    try {
-      const { status } = await axios.put(
-        url,
-        { previousPassword, proposedPassword },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-          },
-          withCredentials: true,
-        },
-      );
-      if (status == 200){
-        return alert('password changed successfully!')
-      }
-    } catch(err) {
-      console.error(err)
-    }
-  }
   return (
     <Layout title="Edit Profile">
       <h1>Settings</h1>
       <h2>Change Email</h2>
-      <form onSubmit={handleEmailSubmit}>
+      <form onSubmit={(e) => {handleEmailSubmit(e, email, router)}}>
           <label htmlFor="email">Email:</label>
-          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} id="email" name="email" />
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} id="email" name="email" required/>
           <button type="submit">Submit</button>
       </form>
       <h2>Change Password</h2>
-      <form onSubmit={handlePasswordSubmit}>
+      <form onSubmit={(e) => {handlePasswordSubmit(e, previousPassword, proposedPassword, router)}}>
           <label htmlFor="previousPassword">Previous Password:</label>
-          <input type="text" value={previousPassword} onChange={(e) => setPreviousPassword(e.target.value)} id="previousPassword" name="previousPassword" />
+          <input type="password" value={previousPassword} onChange={(e) => setPreviousPassword(e.target.value)} id="previousPassword" name="previousPassword" required/>
           <label htmlFor="proposedPassword">New Password:</label>
-          <input type="text" value={proposedPassword} onChange={(e) => setProposedPassword(e.target.value)} id="proposedPassword" name="proposedPassword" />
+          <input type="password" value={proposedPassword} onChange={(e) => setProposedPassword(e.target.value)} id="proposedPassword" name="proposedPassword" required/>
           <button type="submit">Submit</button>
       </form>
     </Layout>

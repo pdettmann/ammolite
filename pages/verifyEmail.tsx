@@ -1,45 +1,32 @@
 import type { NextPage  } from 'next'
 import Layout from '../components/Layout'
 import { FormEvent, useState } from 'react'
-import axios from 'axios'
+import { verifyEmailSubmit } from '../lib/form'
+import { NextRouter, useRouter } from 'next/router'
+
+const handleSubmit = async (event: FormEvent, code: string, router: NextRouter) => {
+    // Stop the form from submitting and refreshing the page.
+    event.preventDefault()
+    const status = await verifyEmailSubmit(code)
+    if (status == 200){
+        alert('email verified')
+        return router.push('/profile')
+    } else {
+        throw new Error(`Status: ${status}`)
+    }
+}
 
 const VerifyEmail: NextPage = () => {
-    const [ code, setCode ] = useState<string>()
+    const [ code, setCode ] = useState<string>('')
+    const router = useRouter()
 
-    const handleSubmit = async (event: FormEvent) => {
-        // Stop the form from submitting and refreshing the page.
-        event.preventDefault()
-
-        const url = 'https://api.ammonite-profiler.xyz/VerifyEmail'
-
-        try {
-            const { status } = await axios.post(
-                url,
-                { code: code },
-                {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-                withCredentials: true,
-                },
-            );
-            console.log(status)
-            if (status == 200){
-                return alert('email verified')
-            }
-        } catch(err) {
-            console.error(err)
-            return alert('error')
-        }
-    }
     return (
       <Layout title="Verify Email">
         <h1>Verify Your Email</h1>
         <p>Please enter the verification code that we sent to your email.</p>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => {handleSubmit(e, code, router)}}>
             <label htmlFor="code">Verification Code:</label>
-            <input type="text" value={code} onChange={(e) => setCode(e.target.value)} id="code" name="code" />
+            <input type="string" value={code} onChange={(e) => setCode(e.target.value)} id="code" name="code" required/>
             <button type="submit">Submit</button>
         </form>
       </Layout>

@@ -1,6 +1,5 @@
-import { useRouter } from 'next/router'
 import axios from 'axios';
-import type { NextPage, GetServerSidePropsContext } from 'next'
+import type { GetServerSidePropsContext } from 'next'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -14,7 +13,6 @@ import {
 import { Line } from 'react-chartjs-2';
 import Layout from '../../components/Layout'
 import { CopyBlock, dracula } from "react-code-blocks";
-
 
 ChartJS.register(
     CategoryScale,
@@ -56,7 +54,6 @@ type Props = {
 }
 
 const Project = (props: Props) => {
-    const router = useRouter()
     const projectName = props.project?.projectName
 
     const options = {
