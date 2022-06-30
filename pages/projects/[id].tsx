@@ -1,28 +1,9 @@
 import axios from 'axios';
-import type { GetServerSidePropsContext } from 'next'
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-  } from 'chart.js';
+import type { GetServerSidePropsContext, NextPage } from 'next'
 import { Line } from 'react-chartjs-2';
 import Layout from '../../components/Layout'
-import { CopyBlock, dracula } from "react-code-blocks";
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-);
+import { CopyBlock } from "react-code-blocks";
+import { createGraphData, createGraphOptions } from "../../lib/graph"
 
 type Benchmark = {
     projectID: string,
@@ -48,83 +29,35 @@ type ProjectResult = {
     project: Project;
 }
 
-type Props = {
+export type Props = {
     benchmarks: Benchmark[];
     project: Project;
 }
 
-const Project = (props: Props) => {
+//@ts-ignore
+const code =
+    `on: [push]
+
+    jobs:
+    profiler-job:
+        runs-on: ubuntu-latest
+        name: profiler job
+        steps:
+        - uses: actions/checkout@v3
+        - name: Profiler action step
+            id: profile
+            uses: pdettmann/ammonite-profiler@main
+            with:
+            entry_file: <your entry file>
+            api_key: \${{ github.API_KEY }} # add in GitHub Secrets`;
+
+const Project: NextPage<Props> = (props: Props) => {
     const projectName = props.project?.projectName
-
-    const options = {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top' as const,
-          },
-          title: {
-            display: true,
-            text: 'Your benchmarks over time',
-          },
-        },
-    };
-
-    const timestamps: number[] = []
-    props.benchmarks?.map((prop) => (
-        timestamps.push(prop.date)
-        )
-    )
-    // TODO: change timestamp to nicely formatted date/time
-    const labels = timestamps.map(date =>
-        new Date(date)
-    );
-
-    const functionCalls: number[] = []
-    props.benchmarks?.map((prop) => (functionCalls.push(prop.functionCalls)))
-
-    const totalTime: number[] = []
-    props.benchmarks?.map((prop) => (totalTime.push(prop.totalTime)))
-
-    const data = {
-        labels,
-        datasets: [
-            {
-            label: 'Function Calls',
-            data: labels.map((label, index) => functionCalls[index]),
-            borderColor: 'rgb(13, 180, 185)',
-            backgroundColor: 'rgba(13, 180, 185, 1)',
-            },
-            {
-            label: 'Total time',
-            data: labels.map((label, index) => totalTime[index]),
-            borderColor: 'rgb(53, 162, 235)',
-            backgroundColor: 'rgba(53, 162, 235, 1)',
-            },
-        ],
-    };
-
-    const language = 'yaml';
-
-    //@ts-ignore
-    const code =
-        `on: [push]
-
-        jobs:
-        profiler-job:
-            runs-on: ubuntu-latest
-            name: profiler job
-            steps:
-            - uses: actions/checkout@v3
-            - name: Profiler action step
-                id: profile
-                uses: pdettmann/ammonite-profiler@main
-                with:
-                entry_file: here goes your entry file
-                api_key: here goes your api key (best put in github secrets)`;
-    const showLineNumbers = true;
-    const wrapLongLines = false;
-    const codeBlock = true;
     const apiKey = props.project.apiKey;
+    const graphOptions = createGraphOptions()
+    const graphData = createGraphData(props)
+    const showLineNumbers = true;
+    const codeBlock = true;
 
     return (
         <Layout title="Project">
@@ -134,14 +67,14 @@ const Project = (props: Props) => {
             <p>Your api_key is: {apiKey}</p>
             <CopyBlock
                 text= {code}
-                language={language}
+                language={'yaml'}
                 theme= 'dracula'
-                wrapLongLines= {wrapLongLines}
+                wrapLongLines= {false}
                 {...{ showLineNumbers, codeBlock }}
             />
             <div>
                 <h2>Your benchmarks</h2>
-                <Line options={options} data={data} />
+                <Line options={graphOptions} data={graphData} />
             </div>
         </Layout>
     )
@@ -150,7 +83,6 @@ const Project = (props: Props) => {
 export const getServerSideProps = async (ctx: GetServerSidePropsContext): Promise<{ props: Props }> => {
     try {
         const id = ctx.params?.id;
-        console.log(ctx.req?.headers)
 
         if (!id) {
             throw Error('no id')
@@ -171,7 +103,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext): Promis
             }
         }
     } catch (err) {
-        //TODO: error handling
         console.error(err)
         // @ts-ignore
         return { props: {} }

@@ -22,6 +22,10 @@ export const createProjectSubmit = async (projectName: string) => {
 }
 
 export const changeEmailSubmit = async (email: string) => {
+    if (!email || email == "") {
+        throw new Error('Missing email')
+    }
+
     const url = 'https://api.ammonite-profiler.xyz/UpdateUser'
 
     const { status } = await axios.put(
@@ -39,6 +43,14 @@ export const changeEmailSubmit = async (email: string) => {
 }
 
 export const changePasswordSubmit = async (previousPassword: string, proposedPassword: string) => {
+    if (!previousPassword || previousPassword == "") {
+        throw new Error('Missing previous password')
+    }
+    if (!proposedPassword || proposedPassword == "") {
+        throw new Error('Missing proposed password')
+    }
+
+
     const url = 'https://api.ammonite-profiler.xyz/ChangePassword'
 
     const { status } = await axios.put(
@@ -55,6 +67,9 @@ export const changePasswordSubmit = async (previousPassword: string, proposedPas
 }
 
 export const verifyEmailSubmit = async (code: string) => {
+    if (!code || code == "") {
+        throw new Error('Missing code')
+    }
     const url = 'https://api.ammonite-profiler.xyz/VerifyEmail'
 
     const { status } = await axios.post(
