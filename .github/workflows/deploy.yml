@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: npm i
-      - run: next build
+      - run: npm build
       - uses: amondnet/vercel-action@v20 #deploy
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }} # Required
