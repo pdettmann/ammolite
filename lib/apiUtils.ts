@@ -1,17 +1,14 @@
 import axios from 'axios'
 const baseUrl = 'https://api.ammonite-profiler.xyz'
 
-const apiClient = axios.create({
-    baseURL: baseUrl
-})
-
 export const createProjectSubmit = async (projectName: string) => {
     if (!projectName || projectName == "") {
         throw new Error('Missing project name')
     }
+    const url = baseUrl + '/CreateProject'
 
-    const { status, data } = await apiClient.post(
-        '/CreateProject',
+    const { status, data } = await axios.post(
+        url,
         { projectName: projectName },
         {
         headers: {
@@ -30,8 +27,10 @@ export const changeEmailSubmit = async (email: string) => {
         throw new Error('Missing email')
     }
 
-    const { status } = await apiClient.put(
-        '/UpdateUser',
+    const url = baseUrl + '/UpdateUser'
+
+    const { status } = await axios.put(
+        url,
         { email: email },
         {
         headers: {
@@ -52,8 +51,10 @@ export const changePasswordSubmit = async (previousPassword: string, proposedPas
         throw new Error('Missing proposed password')
     }
 
-    const { status } = await apiClient.put(
-    '/ChangePassword',
+    const url = baseUrl + '/ChangePassword'
+
+    const { status } = await axios.put(
+    url,
     { previousPassword, proposedPassword },
     {
         headers: {
@@ -69,9 +70,10 @@ export const verifyEmailSubmit = async (code: string) => {
     if (!code || code == "") {
         throw new Error('Missing code')
     }
+    const url = baseUrl + '/VerifyEmail'
 
-    const { status } = await apiClient.post(
-        '/VerifyEmail',
+    const { status } = await axios.post(
+        url,
         { code: code },
         {
         headers: {
@@ -85,8 +87,10 @@ export const verifyEmailSubmit = async (code: string) => {
 }
 
 export const deleteUser = async () => {
-    const { status } = await apiClient.delete(
-        '/DeleteUser',
+    const url = baseUrl + '/DeleteUser'
+
+    const { status } = await axios.delete(
+        url,
         {
             headers: {
                 'Content-Type': 'application/json',
