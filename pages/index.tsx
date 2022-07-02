@@ -1,9 +1,9 @@
 import type { NextPage, NextPageContext } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/home.module.css'
 import Link from 'next/link'
-import Layout from '../components/Layout'
+import Layout from '../components/layout'
 
 export type Props = {
   isLoggedIn: boolean;
@@ -36,13 +36,6 @@ const Home: NextPage<Props> = (props: Props) => {
         <h1 className={styles.title}>
           ammonite-profiler
         </h1>
-
-        <p className={styles.description}>
-          find the sourcecode
-          <Link href="https://github.com/pdettmann/ammonite-profiler">
-            <a> here</a>
-          </Link>
-        </p>
         <div>
             {
               props.isLoggedIn ? <Link href="/profile" aria-label="Link to profile page">Profile</Link> : <Link href="https://api.ammonite-profiler.xyz/Login" aria-label="Link to login page" role="link">Log In/Sign Up</Link>
@@ -52,16 +45,9 @@ const Home: NextPage<Props> = (props: Props) => {
       </main>
 
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
+        <Link href="https://github.com/pdettmann/ammonite-profiler">
+          <a> Sourcecode</a>
+        </Link>
       </footer>
     </div>
     </Layout>

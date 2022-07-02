@@ -1,9 +1,9 @@
 import type { NextPage  } from 'next'
-import Layout from '../components/Layout'
+import Layout from '../components/layout'
 import { FormEvent, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { changeEmailSubmit, changePasswordSubmit, deleteUser } from '../lib/apiUtils'
-import Link from 'next/link'
+import { Button } from 'antd';
 
 const handleEmailSubmit = async (event: FormEvent, email: string, router: NextRouter) => {
   // Stop the form from submitting and refreshing the page.
@@ -63,7 +63,7 @@ const EditProfile: NextPage = () => {
           <button type="submit">Submit</button>
       </form>
       <h2>Delete Account</h2>
-      <button onClick={handleDeleteUser}>Delete</button>
+      <Button onClick={handleDeleteUser} type="primary">Delete</Button>
     </Layout>
   )
 }

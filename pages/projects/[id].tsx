@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { GetServerSidePropsContext, NextPage } from 'next'
 import { Line } from 'react-chartjs-2';
-import Layout from '../../components/Layout'
+import Layout from '../../components/layout'
 import { CopyBlock } from "react-code-blocks";
 import { createGraphData, createGraphOptions } from "../../lib/graph"
 

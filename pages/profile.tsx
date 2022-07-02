@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { NextPage, NextPageContext } from 'next'
-import Layout from '../components/Layout'
+import Layout from '../components/layout'
 
 type Project = {
   projectID: string,

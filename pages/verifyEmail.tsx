@@ -1,5 +1,5 @@
 import type { NextPage  } from 'next'
-import Layout from '../components/Layout'
+import Layout from '../components/layout'
 import { FormEvent, useState } from 'react'
 import { verifyEmailSubmit } from '../lib/apiUtils'
 import { NextRouter, useRouter } from 'next/router'
