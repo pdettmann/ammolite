@@ -1,10 +1,11 @@
 import axios from 'axios'
+const baseUrl = 'https://api.ammonite-profiler.xyz'
 
 export const createProjectSubmit = async (projectName: string) => {
     if (!projectName || projectName == "") {
         throw new Error('Missing project name')
     }
-    const url = 'https://api.ammonite-profiler.xyz/CreateProject'
+    const url = baseUrl + '/CreateProject'
 
     const { status, data } = await axios.post(
         url,
@@ -26,7 +27,7 @@ export const changeEmailSubmit = async (email: string) => {
         throw new Error('Missing email')
     }
 
-    const url = 'https://api.ammonite-profiler.xyz/UpdateUser'
+    const url = baseUrl + '/UpdateUser'
 
     const { status } = await axios.put(
         url,
@@ -51,7 +52,7 @@ export const changePasswordSubmit = async (previousPassword: string, proposedPas
     }
 
 
-    const url = 'https://api.ammonite-profiler.xyz/ChangePassword'
+    const url = baseUrl + '/ChangePassword'
 
     const { status } = await axios.put(
     url,
@@ -70,7 +71,7 @@ export const verifyEmailSubmit = async (code: string) => {
     if (!code || code == "") {
         throw new Error('Missing code')
     }
-    const url = 'https://api.ammonite-profiler.xyz/VerifyEmail'
+    const url = baseUrl + '/VerifyEmail'
 
     const { status } = await axios.post(
         url,
@@ -87,9 +88,9 @@ export const verifyEmailSubmit = async (code: string) => {
 }
 
 export const deleteUser = async () => {
-    const url = 'https://api.ammonite-profiler.xyz/DeleteUser'
+    const url = baseUrl + '/DeleteUser'
 
-    const { status } = await axios.post(
+    const { status } = await axios.get(
         url,
         {
             headers: {
