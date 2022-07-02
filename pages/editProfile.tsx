@@ -29,8 +29,6 @@ const handlePasswordSubmit = async (event: FormEvent, previousPassword: string, 
 }
 
 const handleDeleteUser = async () => {
-  const router = useRouter()
-
   const status = await deleteUser()
   if (status == 200){
     alert('account deleted successfully!')
@@ -64,7 +62,7 @@ const EditProfile: NextPage = () => {
           <button type="submit">Submit</button>
       </form>
       <h2>Delete Account</h2>
-      <button onClick={handleDeleteUser}>Delete</button>
+      <button onClick={() => {handleDeleteUser()}}>Delete</button>
     </Layout>
   )
 }
