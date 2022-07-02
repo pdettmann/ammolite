@@ -91,7 +91,6 @@ export const deleteUser = async () => {
 
     const { status } = await axios.post(
         url,
-        {},
         {
             headers: {
                 'Content-Type': 'application/json',
