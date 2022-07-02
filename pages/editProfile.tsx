@@ -28,21 +28,21 @@ const handlePasswordSubmit = async (event: FormEvent, previousPassword: string, 
   }
 }
 
-const handleDeleteUser = async () => {
-  const status = await deleteUser()
-  if (status == 200){
-    alert('account deleted successfully!')
-    return router.push('https://api.ammonite-profiler.xyz/Logout')
-  } else {
-    throw new Error(`Status: ${status}`);
-  }
-}
-
 const EditProfile: NextPage = () => {
   const [ email, setEmail ] = useState<string>("")
   const [ previousPassword, setPreviousPassword ] = useState<string>("")
   const [ proposedPassword, setProposedPassword ] = useState<string>("")
   const router = useRouter()
+
+  const handleDeleteUser = async () => {
+    const status = await deleteUser()
+    if (status == 200){
+      alert('account deleted successfully!')
+      return router.push('https://api.ammonite-profiler.xyz/Logout')
+    } else {
+      throw new Error(`Status: ${status}`);
+    }
+  }
 
   return (
     <Layout title="Edit Profile">
