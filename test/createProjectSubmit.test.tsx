@@ -1,4 +1,4 @@
-import {createProjectSubmit} from '../lib/form'
+import {createProjectSubmit} from '../lib/apiUtils'
 import axios from 'axios'
 
 describe('createProjectSubmit', () => {

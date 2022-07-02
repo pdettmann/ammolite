@@ -1,4 +1,4 @@
-import { changeEmailSubmit } from '../lib/form'
+import { changeEmailSubmit } from '../lib/apiUtils'
 import axios from 'axios'
 
 describe('changeEmailSubmit', () => {

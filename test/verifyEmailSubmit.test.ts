@@ -1,4 +1,4 @@
-import { verifyEmailSubmit } from '../lib/form'
+import { verifyEmailSubmit } from '../lib/apiUtils'
 import axios from 'axios'
 
 describe('verifyEmailSubmit', () => {

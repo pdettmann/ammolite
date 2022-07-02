@@ -1,4 +1,4 @@
-import { changePasswordSubmit } from '../lib/form'
+import { changePasswordSubmit } from '../lib/apiUtils'
 import axios from 'axios'
 
 describe('changePasswordSubmit', () => {

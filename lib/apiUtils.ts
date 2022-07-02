@@ -86,6 +86,22 @@ export const verifyEmailSubmit = async (code: string) => {
     return status
 }
 
+export const deleteUser = async () => {
+    const url = 'https://api.ammonite-profiler.xyz/DeleteUser'
+
+    const { status } = await axios.post(
+        url,
+        {},
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            withCredentials: true,
+        },
+    );
+    return status
+}
 
 
 

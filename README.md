@@ -9,14 +9,14 @@ Ammolite is a client for the ammolite-profiler GitHub action and the Obsidian RE
 3. `npm install`
 
 Development: \
-4. `npm install`
-5. `npm run dev`
-6. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. `npm install`
+2. `npm run dev`
+3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 Deploy on Vercel:\
-4. `npm run build`
-5. `vercel --prod`
-6. Open the given link to see your app in production
+1. `npm run build`
+2. `vercel --prod`
+3. Open the given link to see your app in production
 
 ## Deployment Pipeline
 The app is deployed on [Vercel]. CICD is handled by using GitHub actions.

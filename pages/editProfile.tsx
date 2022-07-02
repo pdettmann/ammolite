@@ -2,7 +2,7 @@ import type { NextPage  } from 'next'
 import Layout from '../components/Layout'
 import { FormEvent, useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
-import { changeEmailSubmit, changePasswordSubmit } from '../lib/form'
+import { changeEmailSubmit, changePasswordSubmit, deleteUser } from '../lib/apiUtils'
 
 const handleEmailSubmit = async (event: FormEvent, email: string, router: NextRouter) => {
   // Stop the form from submitting and refreshing the page.
@@ -20,12 +20,24 @@ const handlePasswordSubmit = async (event: FormEvent, previousPassword: string, 
   event.preventDefault()
 
   const status = await changePasswordSubmit(previousPassword, proposedPassword)
-    if (status == 200){
-      alert('password changed successfully!')
-      return router.push('/profile')
-    } else {
-      throw new Error(`Status: ${status}`);
-    }
+  if (status == 200){
+    alert('password changed successfully!')
+    return router.push('/profile')
+  } else {
+    throw new Error(`Status: ${status}`);
+  }
+}
+
+const handleDeleteUser = async () => {
+  const router = useRouter()
+
+  const status = await deleteUser()
+  if (status == 200){
+    alert('account deleted successfully!')
+    return router.push('https://api.ammonite-profiler.xyz/Logout')
+  } else {
+    throw new Error(`Status: ${status}`);
+  }
 }
 
 const EditProfile: NextPage = () => {
@@ -51,6 +63,8 @@ const EditProfile: NextPage = () => {
           <input type="password" value={proposedPassword} onChange={(e) => setProposedPassword(e.target.value)} id="proposedPassword" name="proposedPassword" required/>
           <button type="submit">Submit</button>
       </form>
+      <h2>Delete Account</h2>
+      <button onClick={handleDeleteUser}>Delete</button>
     </Layout>
   )
 }

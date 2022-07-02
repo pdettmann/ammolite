@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import Layout from '../components/Layout'
 import { FormEvent, useState } from 'react'
-import { createProjectSubmit } from '../lib/form'
+import { createProjectSubmit } from '../lib/apiUtils'
 import { NextRouter, useRouter } from 'next/router'
 import ErrorBoundary from '../lib/errorBoundary'
 
