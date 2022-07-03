@@ -110,10 +110,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext): Promis
             Cookie: ctx.req?.headers.cookie ?? ''
         }
         });
-        //const data = await res.json();
-        const data = {
-            status: 200
-        }
+
+        const data = await res.json();
 
         if (data.status !== 200) {
             ctx.res?.writeHead(302, { Location: '/' });
@@ -126,33 +124,13 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext): Promis
             throw Error('no id')
         }
 
-        // const { data: benchmarkResult } = await axios.get<BenchmarkResult>(`https://api.ammonite-profiler.xyz/GetBenchmarkData?projectID=${id}`, {
-        //     headers: { Cookie: ctx.req?.headers.cookie ?? '' }
-        // });
+        const { data: benchmarkResult } = await axios.get<BenchmarkResult>(`https://api.ammonite-profiler.xyz/GetBenchmarkData?projectID=${id}`, {
+            headers: { Cookie: ctx.req?.headers.cookie ?? '' }
+        });
 
-        // const { data: projectResult } = await axios.get<ProjectResult>(`https://api.ammonite-profiler.xyz/GetProjectData?projectID=${id}`, {
-        //     headers: { Cookie: ctx.req?.headers.cookie ?? '' }
-        // });
-
-        const benchmarkResult = {
-            benchmarks: [{
-                projectID: 'string',
-                totalTime: 45,
-                date: 356,
-                functionCalls: 56,
-                benchmarkID: 'string'
-            }]
-        } as BenchmarkResult
-
-        const projectResult = {
-            project: {
-                projectID: 'string',
-                apiKey: 'string',
-                date: 563,
-                projectName: 'string',
-                userID: 'string'
-            }
-        } as ProjectResult
+        const { data: projectResult } = await axios.get<ProjectResult>(`https://api.ammonite-profiler.xyz/GetProjectData?projectID=${id}`, {
+            headers: { Cookie: ctx.req?.headers.cookie ?? '' }
+        });
 
         return {
             props: {

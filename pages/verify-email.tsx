@@ -12,8 +12,8 @@ type Props = {
 }
 
 const handleSubmit = async (event: FormEvent, code: string, router: NextRouter) => {
-    // Stop the form from submitting and refreshing the page.
     event.preventDefault()
+
     const status = await verifyEmailSubmit(code)
     if (status == 200){
         alert('email verified')
@@ -58,11 +58,6 @@ const VerifyEmail: NextPage = () => {
                 </Form>
             </Col>
         </Row>
-        {/* <form onSubmit={(e) => {handleSubmit(e, code, router)}}>
-            <label htmlFor="code">Verification Code:</label>
-            <input type="string" value={code} onChange={(e) => setCode(e.target.value)} id="code" name="code" required/>
-            <button type="submit">Submit</button>
-        </form> */}
       </Layout>
     )
 }
@@ -73,10 +68,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             Cookie: ctx.req?.headers.cookie ?? ''
         }
     });
-    //const data = await res.json();
-    const data = {
-        status: 200
-    }
+    const data = await res.json();
 
     if (data.status !== 200) {
         ctx.res?.writeHead(302, { Location: '/' });

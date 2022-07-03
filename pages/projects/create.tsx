@@ -15,17 +15,15 @@ type Props = {
 
 
 const handleSubmit = async (event: FormEvent, projectName: string, router: NextRouter) => {
-    // Stop the form from submitting and refreshing the page.
-    return alert(projectName)
-    //event.preventDefault()
+    event.preventDefault()
 
-    // const [status, projectID] = await createProjectSubmit(projectName)
+    const [status, projectID] = await createProjectSubmit(projectName)
 
-    // if (status == 200) {
-    //     return router.push(`/projects/${projectID}`)
-    // } else {
-    //    return router.push('/error')
-    // }
+    if (status == 200) {
+        return router.push(`/projects/${projectID}`)
+    } else {
+       return router.push('/error')
+    }
 }
 
 const CreateProject: NextPage<Props> = (props: Props) => {
@@ -77,10 +75,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             Cookie: ctx.req?.headers.cookie ?? ''
         }
     });
-    //const data = await res.json();
-    const data = {
-        status: 200
-    }
+    const data = await res.json();
 
     if (data.status !== 200) {
         ctx.res?.writeHead(302, { Location: '/' });

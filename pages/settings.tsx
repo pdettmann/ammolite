@@ -12,29 +12,26 @@ type Props = {
 };
 
 const handleEmailSubmit = async (event: FormEvent, email: string, router: NextRouter) => {
-  // Stop the form from submitting and refreshing the page.
-  return alert(email)
-  // event.preventDefault()
+  event.preventDefault()
 
-  // const status = await changeEmailSubmit(email)
-  // if (status == 200){
-  //   return router.push('/verify-email')
-  // } else {
-  //   return router.push('/error');
-  // }
+  const status = await changeEmailSubmit(email)
+  if (status == 200){
+    return router.push('/verify-email')
+  } else {
+    return router.push('/error');
+  }
 }
 
 const handlePasswordSubmit = async (event: FormEvent, previousPassword: string, proposedPassword: string, router: NextRouter) => {
-  // event.preventDefault()
-  return alert(previousPassword + proposedPassword)
+  event.preventDefault()
 
-  // const status = await changePasswordSubmit(previousPassword, proposedPassword)
-  // if (status == 200){
-  //   alert('password changed successfully!')
-  //   return router.push('/profile')
-  // } else {
-  //   return router.push('/error');
-  // }
+  const status = await changePasswordSubmit(previousPassword, proposedPassword)
+  if (status == 200){
+    alert('password changed successfully!')
+    return router.push('/profile')
+  } else {
+    return router.push('/error');
+  }
 }
 
 const Settings: NextPage = () => {
@@ -150,10 +147,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
           Cookie: ctx.req?.headers.cookie ?? ''
       }
   });
-  // const data = await res.json();
-  const data = {
-    status: 200
-  }
+  const data = await res.json();
 
   if (data.status !== 200) {
       ctx.res?.writeHead(302, { Location: '/' });
