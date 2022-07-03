@@ -1,31 +1,59 @@
 import React, { ReactNode } from 'react'
 import Link from 'next/link'
-import Head from 'next/head'
 import styles from '../styles/layout.module.css';
+import { Layout as AntLayout, Menu } from 'antd';
+import { useRouter } from 'next/router'
+import Head from 'next/head';
+
+const { Header, Footer, Content } = AntLayout;
 
 type Props = {
   children?: ReactNode
-  title?: string
+  title: string
+  selectedPage?: 'home' | 'settings'
+  isLoggedIn: boolean
 }
 
-const Layout = ({ children, title = 'ammonite-profiler' }: Props) => (
-  <div className={styles.container}>
-    <Head>
-      <title>{title}</title>
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    </Head>
-    <header>
-      <nav>
-        <Link href="/">Home</Link>
-        {' '}
-        <Link href="/profile">Profile</Link>
-        {' '}
-        <Link href="https://api.ammonite-profiler.xyz/Logout">Logout</Link>
-      </nav>
-    </header>
-    {children}
-  </div>
-)
+const Layout = ({ children, selectedPage, title = 'ammonite-profiler', isLoggedIn }: Props) => {
+  const router = useRouter();
+  return (
+    <>
+      <Head>
+        <title>{title}</title>
+        <link rel="icon" href="/fossil2.png" />
+      </Head>
+      <AntLayout>
+        <Header style={{ position: 'fixed', zIndex: 1, width: '100%', marginBottom: '5vw'}}>
+          <div className={styles.websiteName}>ammonite-profiler</div>
+          <div>
+            { isLoggedIn ?
+              <Menu
+                theme="dark"
+                mode="horizontal"
+                selectedKeys={[selectedPage ?? '']}
+                items={[
+                  { label: 'Home', key: 'home', onClick: () => router.push('/') },
+                  { label: 'Settings', key: 'settings', onClick: () => router.push('/settings')},
+                  { label: 'Logout', key: 'logout', onClick: () => router.push('https://api.ammonite-profiler.xyz/Logout')}
+                ]}>
+              </Menu> :
+              <Menu
+                theme="dark"
+                mode="horizontal"
+                selectedKeys={[selectedPage ?? '']}
+                items={[
+                  { label: 'Login', key: 'home', onClick: () => router.push('https://api.ammonite-profiler.xyz/Login') },
+                ]}>
+              </Menu>
+            }
+          </div>
+        </Header>
+        <Content className="contentLayout" style={{marginTop: 70, backgroundColor: 'whitesmoke' }}>
+            <AntLayout className='container'>{children}</AntLayout>
+        </Content>
+      </AntLayout>
+    </>
+  )
+}
 
 export default Layout
