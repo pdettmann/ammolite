@@ -61,6 +61,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
           "userID": "c75dad63-113e-48cf-8517-4a1388abf568"
       }
     ]
+    // const data = []
 
     return { props: { projects: data } }
   } catch {

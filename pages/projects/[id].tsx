@@ -4,6 +4,7 @@ import { Line } from 'react-chartjs-2';
 import Layout from '../../components/layout'
 import { CopyBlock } from "react-code-blocks";
 import { createGraphData, createGraphOptions } from "../../lib/graph"
+import { Col, Row, Card  } from 'antd';
 
 type Benchmark = {
     projectID: string,
@@ -54,7 +55,7 @@ const code =
 
 const Project: NextPage<Props> = (props: Props) => {
     const projectName = props.project?.projectName
-    const apiKey = props.project.apiKey;
+    const apiKey = props.project?.apiKey;
     const graphOptions = createGraphOptions()
     const graphData = createGraphData(props)
     const showLineNumbers = true;
@@ -62,21 +63,41 @@ const Project: NextPage<Props> = (props: Props) => {
 
     return (
         <Layout title="Project" isLoggedIn={props.isLoggedIn}>
-            <h1>Project: {projectName}</h1>
-            <h2>Integration</h2>
-            <p>This is an example of a yaml file inside the .github/workflows directory. Do not forget to enter the entry_file and api_key values</p>
-            <p>Your api_key is: {apiKey}</p>
-            <CopyBlock
-                text= {code}
-                language={'yaml'}
-                theme= 'dracula'
-                wrapLongLines= {false}
-                {...{ showLineNumbers, codeBlock }}
-            />
-            <div>
-                <h2>Your benchmarks</h2>
-                <Line options={graphOptions} data={graphData} />
-            </div>
+            <Row>
+                <Col span={24} style={{fontSize: '3vw'}}>
+                    <h1>Project: {projectName}</h1>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <h2>Your benchmarks</h2>
+                    <Line options={graphOptions} data={graphData} />
+                </Col>
+            </Row>
+            <Row style={{marginTop: '10%'}}>
+                <Col span={24}>
+                    <h2>Integration</h2>
+                </Col>
+                <Col span={24}>
+                    <p>This is an example of a yaml file inside the .github/workflows directory. Do not forget to enter the entry_file and api_key values</p>
+                </Col>
+
+            </Row>
+            <Row>
+                <Col span={12}>
+                    <CopyBlock
+                        text= {code}
+                        language={'yaml'}
+                        theme= 'dracula'
+                        wrapLongLines= {false}
+                        {...{ showLineNumbers, codeBlock }}
+                    />
+                </Col>
+                <Col span={12}>
+                    <h2 style={{textAlign: 'center'}}>Your API key:</h2>
+                    <Card>{apiKey}</Card>
+                </Col>
+            </Row>
         </Layout>
     )
 }
@@ -105,13 +126,33 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext): Promis
             throw Error('no id')
         }
 
-        const { data: benchmarkResult } = await axios.get<BenchmarkResult>(`https://api.ammonite-profiler.xyz/GetBenchmarkData?projectID=${id}`, {
-            headers: { Cookie: ctx.req?.headers.cookie ?? '' }
-        });
+        // const { data: benchmarkResult } = await axios.get<BenchmarkResult>(`https://api.ammonite-profiler.xyz/GetBenchmarkData?projectID=${id}`, {
+        //     headers: { Cookie: ctx.req?.headers.cookie ?? '' }
+        // });
 
-        const { data: projectResult } = await axios.get<ProjectResult>(`https://api.ammonite-profiler.xyz/GetProjectData?projectID=${id}`, {
-            headers: { Cookie: ctx.req?.headers.cookie ?? '' }
-        });
+        // const { data: projectResult } = await axios.get<ProjectResult>(`https://api.ammonite-profiler.xyz/GetProjectData?projectID=${id}`, {
+        //     headers: { Cookie: ctx.req?.headers.cookie ?? '' }
+        // });
+
+        const benchmarkResult = {
+            benchmarks: [{
+                projectID: 'string',
+                totalTime: 45,
+                date: 356,
+                functionCalls: 56,
+                benchmarkID: 'string'
+            }]
+        } as BenchmarkResult
+
+        const projectResult = {
+            project: {
+                projectID: 'string',
+                apiKey: 'string',
+                date: 563,
+                projectName: 'string',
+                userID: 'string'
+            }
+        } as ProjectResult
 
         return {
             props: {
@@ -121,9 +162,10 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext): Promis
             }
         }
     } catch (err) {
-        console.error(err)
+        ctx.res?.writeHead(302, { Location: '/error' });
+        ctx.res?.end();
         // @ts-ignore
-        return { props: {} }
+        return { props: {}}
     }
 }
 

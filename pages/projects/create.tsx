@@ -1,11 +1,11 @@
 import type { NextPage, NextPageContext } from 'next'
-import Layout from '../components/layout'
+import Layout from '../../components/layout'
 import { FormEvent, useState } from 'react'
-import { createProjectSubmit } from '../lib/apiUtils'
+import { createProjectSubmit } from '../../lib/apiUtils'
 import { NextRouter, useRouter } from 'next/router'
-import ErrorBoundary from '../lib/errorBoundary'
+import ErrorBoundary from '../../lib/errorBoundary'
 import { Col, Row, Form, Input, Button  } from 'antd';
-import styles from '../styles/createProject.module.css'
+import styles from '../../styles/createProject.module.css'
 
 const { TextArea } = Input;
 
@@ -24,7 +24,7 @@ const handleSubmit = async (event: FormEvent, projectName: string, router: NextR
     // if (status == 200) {
     //     return router.push(`/projects/${projectID}`)
     // } else {
-    //     throw new Error(`Status: ${status}`);
+    //    return router.push('/error')
     // }
 }
 

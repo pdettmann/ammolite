@@ -15,9 +15,9 @@ const handleEmailSubmit = async (event: FormEvent, email: string, router: NextRo
 
   const status = await changeEmailSubmit(email)
   if (status == 200){
-    return router.push('/verifyEmail')
+    return router.push('/verify-email')
   } else {
-    throw new Error(`Status: ${status}`);
+    return router.push('/error');
   }
 }
 
@@ -29,7 +29,7 @@ const handlePasswordSubmit = async (event: FormEvent, previousPassword: string, 
     alert('password changed successfully!')
     return router.push('/profile')
   } else {
-    throw new Error(`Status: ${status}`);
+    return router.push('/error');
   }
 }
 
@@ -45,7 +45,7 @@ const Settings: NextPage = () => {
       alert('account deleted successfully!')
       return router.push('https://api.ammonite-profiler.xyz/Logout')
     } else {
-      throw new Error(`Status: ${status}`);
+      return router.push('/error');
     }
   }
 

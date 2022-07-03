@@ -51,6 +51,9 @@ const Layout = ({ children, selectedPage, title = 'ammonite-profiler', isLoggedI
         <Content className="contentLayout" style={{marginTop: 70, backgroundColor: 'whitesmoke' }}>
             <AntLayout className='container'>{children}</AntLayout>
         </Content>
+        <Footer style={{backgroundColor: 'whitesmoke'}}>
+          <br></br>
+        </Footer>
       </AntLayout>
     </>
   )

@@ -1,5 +1,4 @@
-import { Card, Col, Row, Button  } from 'antd';
-import Link from 'next/link';
+import { Card, Col, Row, Button, Empty  } from 'antd';
 import styles from '../styles/projects.module.css'
 
 
@@ -18,29 +17,26 @@ type Props = {
 const ProjectsGrid = (props: Props): JSX.Element => {
   return (
     <>
-      <h1 className={styles.title}>Your Projects</h1>
+      <Row>
+        <Col span={12}>
+          <h1 className={styles.title}>Your Projects</h1>
+        </Col>
+        <Col span={12}>
+          <Button type="primary" size='large' className={styles.createProjectButton} href='/projects/create'>Create new project</Button>
+        </Col>
+      </Row>
         <div>
         {
           props.projects.length === 0 ?
           <>
             <Row gutter={[20, 40]}>
               <Col span={24}>
-                <p>You don't yet have any projects</p>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Button type="primary" href='./createProject'>Create new project</Button>
+                <Empty></Empty>
               </Col>
             </Row>
           </>
           :
           <>
-            <Row>
-              <Col span={24}>
-                <Button type="primary" href='./createProject' size='large' className={styles.createProjectButton}>Create new project</Button>
-              </Col>
-            </Row>
             <Row gutter={[20, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
               {props.projects?.map((prop) => (
                 <Col span={8}>

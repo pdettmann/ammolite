@@ -1,9 +1,12 @@
-import { render, screen, cleanup } from '@testing-library/react'
-import CreateProject from '../pages/createProject'
+import { render, screen, } from '@testing-library/react'
+import CreateProject from '../pages/projects/create'
 
 describe('CreateProject', () => {
     it('form renders correctly', () => {
-        render(<CreateProject/>)
+        const  props = {
+            isLoggedIn: true
+        }
+        render(<CreateProject {...props}/>)
 
         const headOne = screen.getByRole('heading', {name: 'Create a new project' })
         expect(headOne).toBeInTheDocument()
