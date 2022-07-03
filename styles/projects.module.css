@@ -1,0 +1,10 @@
+.title {
+    font-size: 3vw;
+    margin-top: 5vw;
+    margin-bottom: 3vw;
+}
+
+.createProjectButton {
+    float: right;
+    margin-bottom: 3vw;
+}
