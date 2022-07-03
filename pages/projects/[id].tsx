@@ -2,9 +2,9 @@ import axios from 'axios';
 import type { GetServerSidePropsContext, NextPage } from 'next'
 import { Line } from 'react-chartjs-2';
 import Layout from '../../components/layout'
-import { CopyBlock } from "react-code-blocks";
+import { CopyBlock, hybrid } from "react-code-blocks";
 import { createGraphData, createGraphOptions } from "../../lib/graph"
-import { Col, Row, Card  } from 'antd';
+import { Col, Row, Card, Divider } from 'antd';
 
 type Benchmark = {
     projectID: string,
@@ -68,34 +68,34 @@ const Project: NextPage<Props> = (props: Props) => {
                     <h1>Project: {projectName}</h1>
                 </Col>
             </Row>
-            <Row>
+            <Row style={{marginBottom: '5%'}}>
                 <Col span={24}>
                     <h2>Your benchmarks</h2>
                     <Line options={graphOptions} data={graphData} />
                 </Col>
             </Row>
-            <Row style={{marginTop: '10%'}}>
+            <Divider orientation="left">Implement the ammonite-profiler</Divider>
+            <Row style={{marginTop: '5%'}}>
                 <Col span={24}>
                     <h2>Integration</h2>
                 </Col>
                 <Col span={24}>
                     <p>This is an example of a yaml file inside the .github/workflows directory. Do not forget to enter the entry_file and api_key values</p>
                 </Col>
-
             </Row>
             <Row>
                 <Col span={12}>
                     <CopyBlock
                         text= {code}
                         language={'yaml'}
-                        theme= 'dracula'
+                        theme= {hybrid}
                         wrapLongLines= {false}
                         {...{ showLineNumbers, codeBlock }}
                     />
                 </Col>
                 <Col span={12}>
                     <h2 style={{textAlign: 'center'}}>Your API key:</h2>
-                    <Card>{apiKey}</Card>
+                    <Card style={{ margin: '5%'}}>{apiKey}</Card>
                 </Col>
             </Row>
         </Layout>
