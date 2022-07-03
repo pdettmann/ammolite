@@ -32,6 +32,7 @@ type ProjectResult = {
 export type Props = {
     benchmarks: Benchmark[];
     project: Project;
+    isLoggedIn: boolean;
 }
 
 //@ts-ignore
@@ -60,7 +61,7 @@ const Project: NextPage<Props> = (props: Props) => {
     const codeBlock = true;
 
     return (
-        <Layout title="Project">
+        <Layout title="Project" isLoggedIn={props.isLoggedIn}>
             <h1>Project: {projectName}</h1>
             <h2>Integration</h2>
             <p>This is an example of a yaml file inside the .github/workflows directory. Do not forget to enter the entry_file and api_key values</p>
@@ -82,6 +83,22 @@ const Project: NextPage<Props> = (props: Props) => {
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext): Promise<{ props: Props }> => {
     try {
+
+        const res = await fetch('https://api.ammonite-profiler.xyz/GetUser', {
+        headers: {
+            Cookie: ctx.req?.headers.cookie ?? ''
+        }
+        });
+        //const data = await res.json();
+        const data = {
+            status: 200
+        }
+
+        if (data.status !== 200) {
+            ctx.res?.writeHead(302, { Location: '/' });
+            ctx.res?.end();
+        }
+
         const id = ctx.params?.id;
 
         if (!id) {
@@ -99,7 +116,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext): Promis
         return {
             props: {
                 benchmarks: benchmarkResult.benchmarks,
-                project: projectResult.project
+                project: projectResult.project,
+                isLoggedIn: true
             }
         }
     } catch (err) {
