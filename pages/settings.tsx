@@ -12,8 +12,6 @@ type Props = {
 };
 
 const handleEmailSubmit = async (event: FormEvent, email: string, router: NextRouter) => {
-  event.preventDefault()
-
   const status = await changeEmailSubmit(email)
   if (status == 200){
     return router.push('/verify-email')
@@ -23,8 +21,6 @@ const handleEmailSubmit = async (event: FormEvent, email: string, router: NextRo
 }
 
 const handlePasswordSubmit = async (event: FormEvent, previousPassword: string, proposedPassword: string, router: NextRouter) => {
-  event.preventDefault()
-
   const status = await changePasswordSubmit(previousPassword, proposedPassword)
   if (status == 200){
     alert('password changed successfully!')
