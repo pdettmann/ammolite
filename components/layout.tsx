@@ -2,7 +2,6 @@ import React, { ReactNode } from 'react';
 import styles from '../styles/layout.module.css';
 import { Layout as AntLayout, Menu, Row, Col } from 'antd';
 import Head from 'next/head';
-import Link from 'next/link';
 
 const { Header, Footer, Content } = AntLayout;
 
@@ -33,9 +32,9 @@ const Layout = ({ children, selectedPage, title = 'ammonite-profiler', isLoggedI
                     mode="horizontal"
                     selectedKeys={[selectedPage ?? '']}
                     items={[
-                      { label: (<Link href='/'>Home</Link>), key: 'home'},
-                      { label: (<Link href='/settings'>Settings</Link>), key: 'settings'},
-                      { label: (<Link href='https://api.ammonite-profiler.xyz/Logout'></Link>), key: 'logout'}
+                      { label: (<a href='/'>Home</a>), key: 'home'},
+                      { label: (<a href='/settings'>Settings</a>), key: 'settings'},
+                      { label: (<a href='https://api.ammonite-profiler.xyz/Logout'></a>), key: 'logout'}
                     ]}>
                   </Menu> :
                   <Menu
@@ -43,7 +42,7 @@ const Layout = ({ children, selectedPage, title = 'ammonite-profiler', isLoggedI
                     mode="horizontal"
                     selectedKeys={[selectedPage ?? '']}
                     items={[
-                      { label: (<Link href='https://api.ammonite-profiler.xyz/Login'>Login</Link>), key: 'login'},
+                      { label: (<a href='https://api.ammonite-profiler.xyz/Login'>Login</a>), key: 'login'},
                     ]}>
                   </Menu>
                 }
