@@ -21,6 +21,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
       return { props: { projects: null }}
     }
 
+    console.log(data)
+
     return { props: { projects: data } }
   } catch {
     return { props: { projects: null }}
