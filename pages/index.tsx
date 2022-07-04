@@ -17,11 +17,13 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     });
     const data = await res.json();
 
+    console.log(data)
+
     if (data.status !== 200) {
       return { props: { projects: null }}
     }
 
-    return { props: { projects: data } }
+    return { props: { projects: data.body } }
   } catch {
     return { props: { projects: null }}
   }
