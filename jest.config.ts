@@ -1,8 +1,9 @@
 import nextJest from 'next/jest';
 
-const createJestConfig = nextJest({ dir: './' });
+const createJestConfig = nextJest({ dir: './'});
 
 export default createJestConfig({
+  rootDir: './',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
     '^@/components/(.*)$': '<rootDir>/components/$1',
