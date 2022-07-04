@@ -24,8 +24,7 @@ describe('changeEmailSubmit', () => {
 
     it('missing email throws error', async () => {
         const email = ''
-        expect(async () => {
-            await changeEmailSubmit(email);
-        }).rejects.toThrowError('Missing email');
+        const result = await changeEmailSubmit(email);
+        expect(result).toBe(400);
     })
 })

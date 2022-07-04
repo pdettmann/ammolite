@@ -15,7 +15,7 @@ type Props = {
 
 
 const handleSubmit = async (projectName: string, router: NextRouter) => {
-    const [status, projectID] = await createProjectSubmit(projectName)
+    const { status, projectID }= await createProjectSubmit(projectName)
 
     if (status == 200) {
         return router.push(`/projects/${projectID}`)

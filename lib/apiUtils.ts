@@ -2,11 +2,11 @@ import axios from 'axios'
 const baseUrl = 'https://api.ammonite-profiler.xyz'
 
 export const createProjectSubmit = async (projectName: string) => {
-    console.log(projectName)
     if (!projectName || projectName == "") {
-        // throw new Error('Missing project name')
-        console.log('no porject name')
-        return [400, 0]
+        return {
+            status: 400,
+            projectID: 0
+        }
     }
     const url = baseUrl + '/CreateProject'
     try {
@@ -22,17 +22,20 @@ export const createProjectSubmit = async (projectName: string) => {
             },
         );
         const projectID: string = data.projectID;
-        return [status, projectID]
+        return {
+            status, projectID
+        }
     } catch (err) {
         console.error(err)
-        return [400, 0]
+        return {
+            status: 400,
+            projectID: 0
+        }
     }
 
 }
 
 export const changeEmailSubmit = async (email: string) => {
-    console.log('changeEmailSubmit')
-
     if (!email || email == "") {
         return 400
     }
@@ -51,7 +54,6 @@ export const changeEmailSubmit = async (email: string) => {
             withCredentials: true,
             },
         );
-        console.log(status)
         return status
     } catch (err) {
         console.error(err)
@@ -61,11 +63,9 @@ export const changeEmailSubmit = async (email: string) => {
 
 export const changePasswordSubmit = async (previousPassword: string, proposedPassword: string) => {
     if (!previousPassword || previousPassword == "") {
-        // throw new Error('Missing previous password')
         return 400
     }
     if (!proposedPassword || proposedPassword == "") {
-        // throw new Error('Missing proposed password')
         return 400
     }
 

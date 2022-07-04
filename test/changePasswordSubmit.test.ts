@@ -25,15 +25,13 @@ describe('changePasswordSubmit', () => {
 
     it('missing previous password throws error', async () => {
         const previousPassword = ''
-        expect(async () => {
-            await changePasswordSubmit(previousPassword, proposedPassword);
-        }).rejects.toThrowError('Missing previous password');
+        const result = await changePasswordSubmit(previousPassword, proposedPassword);
+        expect(result).toBe(400);
     })
 
     it('missing proposed password throws error', async () => {
         const proposedPassword = ''
-        expect(async () => {
-            await changePasswordSubmit(previousPassword, proposedPassword);
-        }).rejects.toThrowError('Missing proposed password');
+        const result = await changePasswordSubmit(previousPassword, proposedPassword);
+        expect(result).toBe(400);
     })
 })

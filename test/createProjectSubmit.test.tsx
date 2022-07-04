@@ -22,15 +22,14 @@ describe('createProjectSubmit', () => {
             }
         });
         const result = await createProjectSubmit(projectName);
-        expect(result[0]).toBe(200);
-        expect(result[1]).toBe('project-id');
+        expect(result.status).toBe(200);
+        expect(result.projectID).toBe('project-id');
 
     })
 
     it('missing projectName throws error', async () => {
         const projectName = ''
-        expect(async () => {
-            await createProjectSubmit(projectName);
-        }).rejects.toThrowError('Missing project name');
+        const result = await createProjectSubmit(projectName);
+        expect(result.status).toBe(400);
     })
 })
