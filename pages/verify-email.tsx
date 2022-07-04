@@ -11,13 +11,11 @@ type Props = {
     isLoggedIn: boolean
 }
 
-const handleSubmit = async (event: FormEvent, code: string, router: NextRouter) => {
-    event.preventDefault()
-
+const handleSubmit = async (code: string, router: NextRouter) => {
     const status = await verifyEmailSubmit(code)
     if (status == 200){
         alert('email verified')
-        return router.push('/profile')
+        return router.push('/')
     } else {
         return router.push('/error')
     }
@@ -25,18 +23,18 @@ const handleSubmit = async (event: FormEvent, code: string, router: NextRouter) 
 
 const VerifyEmail: NextPage = () => {
     const [ code, setCode ] = useState<string>('')
+    const [ loading, setLoading ] = useState(false)
     const router = useRouter()
 
     return (
       <Layout title="Verify Email" isLoggedIn={true}>
-        <h1 style={{fontSize: '3vw', marginTop: '5%'}}>Verify Your Email</h1>
-        <Row style={{marginTop: '3%'}}>
+        <h1 style={{fontSize: '3vw', marginTop: '2%'}}>Verify Your Email</h1>
+        <Row style={{marginTop: '2%'}}>
             <Col span={24}>
                 <p style={{marginBottom: '2%'}}>Please enter the verification code that we sent to your email.</p>
                 <Form
                     name="verifyEmailForm"
                     initialValues={{ remember: true }}
-                    onFinish={(e) => handleSubmit(e, code, router)}
                     autoComplete="off"
                     layout='inline'
                     size='large'
@@ -53,7 +51,12 @@ const VerifyEmail: NextPage = () => {
                                 />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType='submit'>Submit</Button>
+                        <Button type="primary" htmlType='submit' loading={loading} onClick={
+                            () => {
+                                handleSubmit(code, router)
+                                setLoading(true)
+                              }
+                        }>Submit</Button>
                     </Form.Item>
                 </Form>
             </Col>

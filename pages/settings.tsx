@@ -80,7 +80,7 @@ const Settings: NextPage = () => {
     <Layout title="Settings" selectedPage='settings' isLoggedIn={true}>
       <Row>
         <Col span={24}>
-          <h1 style={{fontSize: '3vw', marginTop: '3%', marginBottom: '3%'}}>Settings</h1>
+          <h1 style={{fontSize: '3vw', marginTop: '2%', marginBottom: '2%'}}>Settings</h1>
         </Col>
       </Row>
       <Divider orientation="left"></Divider>

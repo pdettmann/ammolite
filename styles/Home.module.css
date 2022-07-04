@@ -7,12 +7,8 @@
   text-align: center;
 }
 
-.titleRow {
-  margin-top: 10%;
-}
-
 .getStartedRow {
-  margin-top: 5%;
+  margin-top: 2%;
 }
 
 .descriptionRow {
@@ -20,6 +16,6 @@
 }
 
 .featureDescriptionRow {
-  margin-top: 10%;
+  margin-top: 5%;
   text-align: center;
 }
