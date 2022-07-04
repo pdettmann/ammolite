@@ -12,7 +12,6 @@ type Props = {
 };
 
 const handleEmailSubmit = async (email: string, router: NextRouter) => {
-  console.log('handleEmailSubmit')
   const status = await changeEmailSubmit(email)
   alert(status)
   if (status === 200){
