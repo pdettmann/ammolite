@@ -21,8 +21,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
       return { props: { projects: null }}
     }
 
-    console.log(data)
-
     return { props: { projects: data } }
   } catch {
     return { props: { projects: null }}
@@ -30,6 +28,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 }
 
 const Home: NextPage<Props> = (props: Props) => {
+  console.log(props)
+  console.log(props.projects)
   return (
     <Layout title='Home' selectedPage='home' isLoggedIn={props.projects !== null}>
       {props.projects !== null ? (<ProjectsGrid projects={props.projects} />) : (
