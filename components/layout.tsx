@@ -1,8 +1,8 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode } from 'react';
 import styles from '../styles/layout.module.css';
-import { Layout as AntLayout, Menu, Row, Col, Image } from 'antd';
-import { useRouter } from 'next/router'
+import { Layout as AntLayout, Menu, Row, Col } from 'antd';
 import Head from 'next/head';
+import Link from 'next/link';
 
 const { Header, Footer, Content } = AntLayout;
 
@@ -14,7 +14,6 @@ type Props = {
 }
 
 const Layout = ({ children, selectedPage, title = 'ammonite-profiler', isLoggedIn }: Props) => {
-  const router = useRouter();
   return (
     <>
       <Head>
@@ -34,9 +33,9 @@ const Layout = ({ children, selectedPage, title = 'ammonite-profiler', isLoggedI
                     mode="horizontal"
                     selectedKeys={[selectedPage ?? '']}
                     items={[
-                      { label: 'Home', key: 'home', onClick: () => router.push('/') },
-                      { label: 'Settings', key: 'settings', onClick: () => router.push('/settings')},
-                      { label: 'Logout', key: 'logout', onClick: () => router.push('https://api.ammonite-profiler.xyz/Logout')}
+                      { label: (<Link href='/'>Home</Link>), key: 'home'},
+                      { label: (<Link href='/settings'>Settings</Link>), key: 'settings'},
+                      { label: (<Link href='https://api.ammonite-profiler.xyz/Logout'></Link>), key: 'logout'}
                     ]}>
                   </Menu> :
                   <Menu
@@ -44,7 +43,7 @@ const Layout = ({ children, selectedPage, title = 'ammonite-profiler', isLoggedI
                     mode="horizontal"
                     selectedKeys={[selectedPage ?? '']}
                     items={[
-                      { label: 'Login', key: 'login', onClick: () => router.push('https://api.ammonite-profiler.xyz/Login') },
+                      { label: (<Link href='https://api.ammonite-profiler.xyz/Login'>Login</Link>), key: 'login'},
                     ]}>
                   </Menu>
                 }
