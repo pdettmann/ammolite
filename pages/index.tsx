@@ -5,8 +5,7 @@ import { Col, Row, Button, Card } from 'antd';
 import ProjectsGrid, { Project } from '../components/projects'
 
 export type Props = {
-  projects?: Project[] | null;
-  error?: object;
+  projects: Project[] | null;
 };
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: Props }> => {
@@ -19,7 +18,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const data = await res.json();
 
     if (data.status !== 200) {
-      return { props: { error: data }}
+      return { props: { projects: data }}
     }
 
     return { props: { projects: data } }
@@ -29,8 +28,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 }
 
 const Home: NextPage<Props> = (props: Props) => {
-  console.log(props)
-  console.log(props.projects)
   return (
     <Layout title='Home' selectedPage='home' isLoggedIn={props.projects !== null}>
       {props.projects !== null ? (<ProjectsGrid projects={props.projects} />) : (
