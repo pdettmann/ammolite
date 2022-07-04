@@ -18,7 +18,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const data = await res.json();
 
     if (data.status !== 200) {
-      return { props: { projects: data }}
+      return { props: { projects: null }}
     }
 
     return { props: { projects: data } }
