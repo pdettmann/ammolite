@@ -3,7 +3,6 @@ import styles from '../styles/home.module.css'
 import Layout from '../components/layout'
 import { Col, Row, Button, Card } from 'antd';
 import ProjectsGrid, { Project } from '../components/projects'
-import axios from 'axios';
 
 export type Props = {
   projects: Project[] | null;
@@ -20,11 +19,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     console.log(data)
 
-    // if (data.status !== 200) {
-    //   return { props: { projects: null }}
-    // }
+    if (res.status !== 200) {
+      return { props: { projects: null }}
+    }
 
-    return { props: { projects: data } }
+    return { props: data }
   } catch {
     return { props: { projects: null }}
   }

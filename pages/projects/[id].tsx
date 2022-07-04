@@ -113,7 +113,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext): Promis
 
         const data = await res.json();
 
-        if (data.status !== 200) {
+        if (res.status !== 200) {
             ctx.res?.writeHead(302, { Location: '/' });
             ctx.res?.end();
         }
