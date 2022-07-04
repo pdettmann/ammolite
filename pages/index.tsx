@@ -5,7 +5,8 @@ import { Col, Row, Button, Card } from 'antd';
 import ProjectsGrid, { Project } from '../components/projects'
 
 export type Props = {
-  projects: Project[] | null;
+  projects?: Project[] | null;
+  error?: object;
 };
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: Props }> => {
@@ -18,9 +19,9 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const data = await res.json();
 
     if (data.status !== 200) {
-      return { props: { projects: null }}
+      return { props: { error: data }}
     }
-    alert(data)
+
     return { props: { projects: data } }
   } catch {
     return { props: { projects: null }}
