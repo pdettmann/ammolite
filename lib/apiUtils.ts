@@ -8,7 +8,9 @@ export const createProjectSubmit = async (projectName: string) => {
             projectID: 0
         }
     }
+
     const url = baseUrl + '/CreateProject'
+
     try {
         const { status, data } = await axios.post(
             url,
@@ -87,14 +89,13 @@ export const changePasswordSubmit = async (previousPassword: string, proposedPas
         console.error(err)
         return 400
     }
-
-
 }
 
 export const verifyEmailSubmit = async (code: string) => {
     if (!code || code == "") {
         throw new Error('Missing code')
     }
+
     const url = baseUrl + '/VerifyEmail'
 
     try {

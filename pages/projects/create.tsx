@@ -3,7 +3,6 @@ import Layout from '../../components/layout'
 import { useState } from 'react'
 import { createProjectSubmit } from '../../lib/apiUtils'
 import { NextRouter, useRouter } from 'next/router'
-import ErrorBoundary from '../../lib/errorBoundary'
 import { Col, Row, Form, Input, Button  } from 'antd';
 import styles from '../../styles/createProject.module.css'
 
@@ -35,44 +34,42 @@ const CreateProject: NextPage<Props> = (props: Props) => {
     const router = useRouter()
 
     return (
-        <ErrorBoundary>
-            <Layout title="Create Project" isLoggedIn={props.isLoggedIn}>
-                <Row>
-                    <Col span={24}>
-                        <h1 className={styles.title}>Create a new project</h1>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={24}>
-                        <Form
-                            name="projectNameForm"
-                            initialValues={{ remember: true }}
-                            autoComplete="off"
-                            layout='inline'
-                            className={styles.form}>
-                            <Form.Item
-                                label="Project Name"
-                                name="projectName"
-                                rules={[{ required: true, message: 'Please enter your project name' }]}>
-                                    <TextArea
-                                        placeholder="Project Name"
-                                        value={projectName}
-                                        onChange={e => setProjectName(e.target.value)}
-                                        autoSize
-                                        />
-                            </Form.Item>
-                            <Form.Item>
-                                <Button type="primary" htmlType='submit' disabled={isFormEmpty(projectName) == false} loading={loading} onClick={
-                                    () => {
-                                    handleSubmit(projectName, router)
-                                    setLoading(true)
-                                    }}>Submit</Button>
-                            </Form.Item>
-                        </Form>
-                    </Col>
-                </Row>
-            </Layout>
-        </ErrorBoundary>
+        <Layout title="Create Project" isLoggedIn={props.isLoggedIn}>
+            <Row>
+                <Col span={24}>
+                    <h1 className={styles.title}>Create a new project</h1>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={24}>
+                    <Form
+                        name="project name form"
+                        initialValues={{ remember: true }}
+                        autoComplete="off"
+                        layout='inline'
+                        className={styles.form}>
+                        <Form.Item
+                            label="Project Name"
+                            name="projectName"
+                            rules={[{ required: true, message: 'Please enter your project name' }]}>
+                                <TextArea
+                                    placeholder="Project Name"
+                                    value={projectName}
+                                    onChange={e => setProjectName(e.target.value)}
+                                    autoSize
+                                    />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType='submit' disabled={isFormEmpty(projectName) == false} loading={loading} onClick={
+                                () => {
+                                handleSubmit(projectName, router)
+                                setLoading(true)
+                                }}>Submit</Button>
+                        </Form.Item>
+                    </Form>
+                </Col>
+            </Row>
+        </Layout>
     )
 }
 

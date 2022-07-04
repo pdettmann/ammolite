@@ -64,7 +64,7 @@ const Project: NextPage<Props> = (props: Props) => {
     return (
         <Layout title="Project" isLoggedIn={props.isLoggedIn}>
             <Row>
-                <Col span={24} style={{fontSize: '3vw'}}>
+                <Col span={24} style={{fontSize: '3rem'}}>
                     <h1>Project: {projectName}</h1>
                 </Col>
             </Row>
@@ -104,11 +104,10 @@ const Project: NextPage<Props> = (props: Props) => {
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext): Promise<{ props: Props }> => {
     try {
-
         const res = await fetch('https://api.ammonite-profiler.xyz/GetUser', {
-        headers: {
-            Cookie: ctx.req?.headers.cookie ?? ''
-        }
+            headers: {
+                Cookie: ctx.req?.headers.cookie ?? ''
+            }
         });
 
         if (res.status !== 200) {
@@ -119,7 +118,8 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext): Promis
         const id = ctx.params?.id;
 
         if (!id) {
-            throw Error('no id')
+            ctx.res?.writeHead(302, { Location: '/' });
+            ctx.res?.end();
         }
 
         const { data: benchmarkResult } = await axios.get<BenchmarkResult>(`https://api.ammonite-profiler.xyz/GetBenchmarkData?projectID=${id}`, {

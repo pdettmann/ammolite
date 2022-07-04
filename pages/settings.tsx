@@ -1,6 +1,6 @@
 import type { NextPage, NextPageContext  } from 'next'
 import Layout from '../components/layout'
-import { FormEvent, useState } from 'react'
+import { useState } from 'react'
 import { NextRouter, useRouter } from 'next/router'
 import { changeEmailSubmit, changePasswordSubmit, deleteUser } from '../lib/apiUtils'
 import { Button, Row, Col, Card, Form, Input, Divider } from 'antd';
@@ -13,7 +13,7 @@ type Props = {
 
 const handleEmailSubmit = async (email: string, router: NextRouter) => {
   const status = await changeEmailSubmit(email)
-  alert(status)
+
   if (status === 200){
     return router.push('/verify-email')
   } else {
@@ -23,6 +23,7 @@ const handleEmailSubmit = async (email: string, router: NextRouter) => {
 
 const handlePasswordSubmit = async (previousPassword: string, proposedPassword: string, router: NextRouter) => {
   const status = await changePasswordSubmit(previousPassword, proposedPassword)
+
   if (status === 200){
     alert('password changed successfully!')
     return router.push('/')
@@ -48,15 +49,19 @@ const Settings: NextPage = () => {
     if (projectName.length < 6) {
       setPasswordHint('password is too short, it must be at least six characters')
       return passwordHint
+
     } else if (projectName.length > 50) {
       setPasswordHint("password is too_long, it must be less than 50 characters");
       return passwordHint
+
     } else if (projectName.search(/\d/) == -1) {
       setPasswordHint("password must contain at least one number");
       return passwordHint
+
     } else if (projectName.search(/[a-zA-Z]/) == -1) {
       setPasswordHint("password must contain at least one letter");
       return passwordHint
+
     } else if (projectName.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
       setPasswordHint("password contains invalid characters");
       return passwordHint
@@ -67,6 +72,7 @@ const Settings: NextPage = () => {
 
   const handleDeleteUser = async () => {
     const status = await deleteUser()
+
     if (status === 200){
       alert('account deleted successfully! you will now return to the homepage')
       return router.push('https://api.ammonite-profiler.xyz/Logout')

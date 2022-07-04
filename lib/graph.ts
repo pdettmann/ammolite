@@ -75,7 +75,6 @@ export const createGraphData = (props: Props) => {
             },
         ],
     };
-
     return data
 }
 

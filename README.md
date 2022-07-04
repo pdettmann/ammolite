@@ -1,6 +1,6 @@
 # Ammolite: the frontend for the ammonite-profiler
 
-Ammolite is a client for the ammolite-profiler GitHub action and the Obsidian REST API. It was built in typescript using the nextjs framework. Next.js is an open-source web development framework built on top of Node.js enabling React-based web applications functionalities such as server-side rendering and generating static websites.
+Ammolite is a client for the ammolite-profiler GitHub action and the Obsidian REST API. It was built in typescript using the Next.js framework. Next.js is an open-source web development framework built on top of Node.js enabling React-based web applications functionalities such as server-side rendering and generating static websites.
 
 ## Quickstart
 
@@ -19,9 +19,9 @@ Deploy on Vercel:\
 3. Open the given link to see your app in production
 
 ## Deployment Pipeline
-The app is deployed on [Vercel]. CICD is handled by using GitHub actions.
+The app is deployed on [Vercel]. CI/CD is handled by using GitHub actions.
 
-![cicd](./public/client-cicd.drawio.png)
+![ci/cd](./public/client-cicd.drawio.png)
 
 ## Relevant Documentations
 * [Next.js Documentation]
