@@ -20,7 +20,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (data.status !== 200) {
       return { props: { projects: null }}
     }
-
+    alert(data)
     return { props: { projects: data } }
   } catch {
     return { props: { projects: null }}
