@@ -7,4 +7,11 @@
 .createProjectButton {
     float: right;
     margin-top: 9%;
+    margin-bottom: 2%;
+}
+
+.card {
+    white-space: pre-line;
+    word-wrap: break-word;
+    overflow: hidden;
 }

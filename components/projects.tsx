@@ -41,8 +41,8 @@ const ProjectsGrid = (props: Props): JSX.Element => {
               {props.projects?.map((prop) => (
                 <Col span={8}>
                   <a href={`/projects/${encodeURIComponent(prop.projectID)}`}>
-                    <Card title={prop.projectName}>
-                      <p>API Key: {prop.apiKey}</p>
+                    <Card title={prop.projectName} className={styles.card}>
+                      <p className={styles.cardContent}>API Key: {prop.apiKey as string}</p>
                     </Card>
                   </a>
                 </Col>
