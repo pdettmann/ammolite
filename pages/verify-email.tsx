@@ -58,6 +58,11 @@ const VerifyEmail: NextPage = () => {
                 </Form>
             </Col>
         </Row>
+        <Row style={{marginTop: '5%'}}>
+            <Col span={24}>
+                <p>If you did not receive a code, your email is already verified</p>
+            </Col>
+        </Row>
       </Layout>
     )
 }
@@ -68,16 +73,15 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             Cookie: ctx.req?.headers.cookie ?? ''
         }
     });
-    const data = await res.json();
 
-    if (data.status !== 200) {
+    if (res.status !== 200) {
         ctx.res?.writeHead(302, { Location: '/' });
         ctx.res?.end();
     }
 
     return {
         props: {
-            isLoggedIn: data.status === 200
+            isLoggedIn: true
         }
     }
 }
