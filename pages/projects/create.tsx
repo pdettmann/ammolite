@@ -14,9 +14,7 @@ type Props = {
 };
 
 
-const handleSubmit = async (event: FormEvent, projectName: string, router: NextRouter) => {
-    event.preventDefault()
-
+const handleSubmit = async (projectName: string, router: NextRouter) => {
     const [status, projectID] = await createProjectSubmit(projectName)
 
     if (status == 200) {
@@ -26,8 +24,14 @@ const handleSubmit = async (event: FormEvent, projectName: string, router: NextR
     }
 }
 
+const isFormEmpty = (projectName: string): boolean  => {
+    const regex = /^([A-Za-z0-9_\-\.])/;
+    return regex.test(projectName)
+}
+
 const CreateProject: NextPage<Props> = (props: Props) => {
-    const [projectName, setProjectName] = useState<string>("")
+    const [ projectName, setProjectName ] = useState<string>("")
+    const [ loading, setLoading ] = useState(false)
     const router = useRouter()
 
     return (
@@ -43,7 +47,6 @@ const CreateProject: NextPage<Props> = (props: Props) => {
                         <Form
                             name="projectNameForm"
                             initialValues={{ remember: true }}
-                            onFinish={(e) => handleSubmit(e, projectName, router)}
                             autoComplete="off"
                             layout='inline'
                             className={styles.form}>
@@ -59,7 +62,11 @@ const CreateProject: NextPage<Props> = (props: Props) => {
                                         />
                             </Form.Item>
                             <Form.Item>
-                                <Button type="primary" htmlType='submit'>Submit</Button>
+                                <Button type="primary" htmlType='submit' disabled={isFormEmpty(projectName) == false} loading={loading} onClick={
+                                    () => {
+                                    handleSubmit(projectName, router)
+                                    setLoading(true)
+                                    }}>Submit</Button>
                             </Form.Item>
                         </Form>
                     </Col>

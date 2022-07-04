@@ -11,34 +11,64 @@ type Props = {
   isLoggedIn: boolean;
 };
 
-const handleEmailSubmit = async (event: FormEvent, email: string, router: NextRouter) => {
+const handleEmailSubmit = async (email: string, router: NextRouter) => {
+  console.log('handleEmailSubmit')
   const status = await changeEmailSubmit(email)
-  if (status == 200){
+  alert(status)
+  if (status === 200){
     return router.push('/verify-email')
   } else {
     return router.push('/error');
   }
 }
 
-const handlePasswordSubmit = async (event: FormEvent, previousPassword: string, proposedPassword: string, router: NextRouter) => {
+const handlePasswordSubmit = async (previousPassword: string, proposedPassword: string, router: NextRouter) => {
   const status = await changePasswordSubmit(previousPassword, proposedPassword)
-  if (status == 200){
+  if (status === 200){
     alert('password changed successfully!')
-    return router.push('/profile')
+    return router.push('/')
   } else {
     return router.push('/error');
   }
+}
+
+const isEmailValid = (email: string): boolean => {
+  const regex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  return regex.test(email)
 }
 
 const Settings: NextPage = () => {
   const [ email, setEmail ] = useState<string>("")
   const [ previousPassword, setPreviousPassword ] = useState<string>("")
   const [ proposedPassword, setProposedPassword ] = useState<string>("")
+  const [ loading, setLoading ] = useState(false)
+  const [ passwordHint, setPasswordHint ] = useState<string>("")
   const router = useRouter()
+
+  const isPasswordValid = (projectName: string): string  => {
+    if (projectName.length < 6) {
+      setPasswordHint('password is too short, it must be at least six characters')
+      return passwordHint
+    } else if (projectName.length > 50) {
+      setPasswordHint("password is too_long, it must be less than 50 characters");
+      return passwordHint
+    } else if (projectName.search(/\d/) == -1) {
+      setPasswordHint("password must contain at least one number");
+      return passwordHint
+    } else if (projectName.search(/[a-zA-Z]/) == -1) {
+      setPasswordHint("password must contain at least one letter");
+      return passwordHint
+    } else if (projectName.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
+      setPasswordHint("password contains invalid characters");
+      return passwordHint
+    }
+    setPasswordHint("OK");
+    return passwordHint
+  }
 
   const handleDeleteUser = async () => {
     const status = await deleteUser()
-    if (status == 200){
+    if (status === 200){
       alert('account deleted successfully! you will now return to the homepage')
       return router.push('https://api.ammonite-profiler.xyz/Logout')
     } else {
@@ -59,16 +89,15 @@ const Settings: NextPage = () => {
           <Card>
             <h2>Change Email</h2>
             <Form
-              name="emailForm"
+              name="change email form"
               initialValues={{ remember: true }}
-              onFinish={(e) => handleEmailSubmit(e, email, router)}
               autoComplete="off"
               layout='inline'
               >
               <Form.Item
                   label="Email"
-                  name="email"
-                  rules={[{ required: true, message: 'Please enter your new email address' }]}>
+                  name="new email"
+                  rules={[{ required: true, type: "email", message: 'Please enter an email address' }]}>
                       <TextArea
                           placeholder="Email"
                           value={email}
@@ -77,7 +106,12 @@ const Settings: NextPage = () => {
                           />
               </Form.Item>
               <Form.Item>
-                  <Button type="primary" htmlType='submit'>Submit</Button>
+                  <Button type="primary" htmlType='submit' disabled={isEmailValid(email) == false} loading={loading} onClick={
+                    () => {
+                      handleEmailSubmit(email, router)
+                      setLoading(true)
+                    }
+                  } >Submit</Button>
               </Form.Item>
             </Form>
           </Card>
@@ -89,18 +123,17 @@ const Settings: NextPage = () => {
           <Card>
             <h2>Change Password</h2>
             <Form
-              name="password"
+              name="change password form"
               initialValues={{ remember: true }}
-              onFinish={(e) => handlePasswordSubmit(e, previousPassword, proposedPassword, router)}
               autoComplete="off"
               layout='horizontal'
               >
               <Form.Item
                   label="Old Password"
-                  name="projectName"
-                  rules={[{ required: true, message: 'Please enter your project name' }]}>
+                  name="old password"
+                  rules={[{ required: true, message: 'Please enter your old password' }]}>
                       <TextArea
-                          placeholder="Project Name"
+                          placeholder="Old Password"
                           value={previousPassword}
                           onChange={e => setPreviousPassword(e.target.value)}
                           autoSize
@@ -109,16 +142,24 @@ const Settings: NextPage = () => {
               <Form.Item
                   label="New Password"
                   name="newPassword"
-                  rules={[{ required: true, message: 'Please enter your new password' }]}>
+                  rules={[{ required: true, message: passwordHint }]}>
                       <TextArea
                           placeholder="New Password"
                           value={proposedPassword}
-                          onChange={e => setProposedPassword(e.target.value)}
+                          onChange={e => {
+                            setProposedPassword(e.target.value)
+                            isPasswordValid(proposedPassword)
+                          }}
                           autoSize
                           />
               </Form.Item>
               <Form.Item>
-                  <Button type="primary" htmlType='submit'>Submit</Button>
+                  <Button type="primary" htmlType='submit' loading={loading} disabled={ passwordHint !== 'OK' } onClick={
+                    () => {
+                      handlePasswordSubmit(previousPassword, proposedPassword, router)
+                      setLoading(true)
+                    }
+                  } >Submit</Button>
               </Form.Item>
             </Form>
           </Card>
@@ -129,7 +170,9 @@ const Settings: NextPage = () => {
         <Col span={12}>
           <Card>
             <h2>Delete Account</h2>
-            <Button onClick={handleDeleteUser} type="primary" danger>Delete</Button>
+            <Button type="primary" name='delete account' danger onClick={() => {
+              handleDeleteUser()
+              setLoading(true)}}>Delete</Button>
           </Card>
         </Col>
       </Row>
@@ -143,16 +186,15 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
           Cookie: ctx.req?.headers.cookie ?? ''
       }
   });
-  const data = await res.json();
 
-  if (data.status !== 200) {
+  if (res.status !== 200) {
       ctx.res?.writeHead(302, { Location: '/' });
       ctx.res?.end();
   }
 
   return {
       props: {
-          isLoggedIn: data.status === 200
+          isLoggedIn: true
       }
   }
 }
