@@ -118,7 +118,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext): Promis
         const id = ctx.params?.id;
 
         if (!id) {
-            ctx.res?.writeHead(302, { Location: '/' });
+            ctx.res?.writeHead(302, { Location: '/error' });
             ctx.res?.end();
         }
 
