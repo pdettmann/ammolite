@@ -34,7 +34,7 @@ const Layout = ({ children, selectedPage, title = 'ammonite-profiler', isLoggedI
                     items={[
                       { label: (<a href='/'>Home</a>), key: 'home'},
                       { label: (<a href='/settings'>Settings</a>), key: 'settings'},
-                      { label: (<a href='https://api.ammonite-profiler.xyz/Logout'></a>), key: 'logout'}
+                      { label: (<a href='https://api.ammonite-profiler.xyz/Logout'>Log out</a>), key: 'logout'}
                     ]}>
                   </Menu> :
                   <Menu
@@ -42,7 +42,7 @@ const Layout = ({ children, selectedPage, title = 'ammonite-profiler', isLoggedI
                     mode="horizontal"
                     selectedKeys={[selectedPage ?? '']}
                     items={[
-                      { label: (<a href='https://api.ammonite-profiler.xyz/Login'>Login</a>), key: 'login'},
+                      { label: (<a href='https://api.ammonite-profiler.xyz/Login'>Log in</a>), key: 'login'},
                     ]}>
                   </Menu>
                 }
