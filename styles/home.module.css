@@ -1,0 +1,25 @@
+.title {
+  text-align: center;
+  font-size: 5vw;
+}
+
+.login {
+  text-align: center;
+}
+
+.titleRow {
+  margin-top: 15%;
+}
+
+.getStartedRow {
+  margin-top: 5%;
+}
+
+.descriptionRow {
+  text-align: center;
+}
+
+.featureDescriptionRow {
+  margin-top: 10%;
+  text-align: center;
+}
