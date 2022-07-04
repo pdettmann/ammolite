@@ -10,5 +10,5 @@ export default createJestConfig({
     '^@/pages/(.*)$': '<rootDir>/pages/$1',
   },
   testEnvironment: 'jest-environment-jsdom',
-  transform: { "^.+\\.(ts|tsx|js|jsx)?$": "ts-jest" }
+  //transform: { "^.+\\.(ts|tsx|js|jsx)?$": "ts-jest" }
 })
