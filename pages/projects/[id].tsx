@@ -5,7 +5,7 @@ import Layout from '../../components/layout'
 import { CopyBlock, hybrid } from "react-code-blocks";
 import { createGraphData, createGraphOptions } from "../../lib/graph"
 import { Col, Row, Card, Divider } from 'antd';
-import styles from '../styles/id.module.css'
+import styles from '../../styles/id.module.css'
 
 type Benchmark = {
     projectID: string,
