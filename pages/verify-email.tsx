@@ -1,6 +1,7 @@
 import type { NextPage, NextPageContext  } from 'next'
 import Layout from '../components/layout'
-import { FormEvent, useState } from 'react'
+import styles from '../styles/verify-email.module.css'
+import { useState } from 'react'
 import { verifyEmailSubmit } from '../lib/apiUtils'
 import { NextRouter, useRouter } from 'next/router'
 import { Button, Row, Col, Form, Input} from 'antd';
@@ -28,10 +29,10 @@ const VerifyEmail: NextPage = () => {
 
     return (
       <Layout title="Verify Email" isLoggedIn={true}>
-        <h1 style={{fontSize: '40pt', marginTop: '2%'}}>Verify Your Email</h1>
+        <h1 className={styles.title}>Verify Your Email</h1>
         <Row style={{marginTop: '2%'}}>
             <Col span={24}>
-                <p style={{marginBottom: '2%'}}>Please enter the verification code that we sent to your email.</p>
+                <p className={styles.descriptionText}>Please enter the verification code that we sent to your email.</p>
                 <Form
                     name="verifyEmailForm"
                     initialValues={{ remember: true }}
