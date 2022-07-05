@@ -46,7 +46,7 @@ const CreateProject: NextPage<Props> = (props: Props) => {
                         name="project name form"
                         initialValues={{ remember: true }}
                         autoComplete="off"
-                        layout='inline'
+                        layout='horizontal'
                         className={styles.form}>
                         <Form.Item
                             label="Project Name"
