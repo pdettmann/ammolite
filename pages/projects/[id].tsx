@@ -5,6 +5,7 @@ import Layout from '../../components/layout'
 import { CopyBlock, hybrid } from "react-code-blocks";
 import { createGraphData, createGraphOptions } from "../../lib/graph"
 import { Col, Row, Card, Divider } from 'antd';
+import styles from '../styles/id.module.css'
 
 type Benchmark = {
     projectID: string,
@@ -95,7 +96,7 @@ const Project: NextPage<Props> = (props: Props) => {
                 </Col>
                 <Col span={12}>
                     <h2 style={{textAlign: 'center'}}>Your API key:</h2>
-                    <Card style={{ margin: '5%'}}>{apiKey}</Card>
+                    <Card  className={styles.card}>{apiKey}</Card>
                 </Col>
             </Row>
         </Layout>

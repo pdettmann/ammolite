@@ -1,0 +1,6 @@
+.card {
+    white-space: pre-line;
+    word-wrap: break-word;
+    overflow: hidden;
+    margin: '5%';
+}
