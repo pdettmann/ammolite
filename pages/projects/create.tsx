@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { createProjectSubmit } from '../../lib/apiUtils'
 import { NextRouter, useRouter } from 'next/router'
 import { Col, Row, Form, Input, Button  } from 'antd';
-import styles from '../../styles/createProject.module.css'
+import styles from '../../styles/create-project.module.css'
 
 const { TextArea } = Input;
 
