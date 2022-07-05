@@ -1,6 +1,7 @@
 import type { NextPage, NextPageContext  } from 'next'
 import Layout from '../components/layout'
 import { useState } from 'react'
+import styles from '../styles/settings.module.css'
 import { NextRouter, useRouter } from 'next/router'
 import { changeEmailSubmit, changePasswordSubmit, deleteUser } from '../lib/apiUtils'
 import { Button, Row, Col, Card, Form, Input, Divider } from 'antd';
@@ -85,7 +86,7 @@ const Settings: NextPage = () => {
     <Layout title="Settings" selectedPage='settings' isLoggedIn={true}>
       <Row>
         <Col span={24}>
-          <h1 style={{fontSize: '3vw', marginTop: '2%', marginBottom: '2%'}}>Settings</h1>
+          <h1 className={styles.title}>Settings</h1>
         </Col>
       </Row>
       <Divider orientation="left"></Divider>
@@ -97,7 +98,7 @@ const Settings: NextPage = () => {
               name="change email form"
               initialValues={{ remember: true }}
               autoComplete="off"
-              layout='inline'
+              layout='horizontal'
               >
               <Form.Item
                   label="Email"

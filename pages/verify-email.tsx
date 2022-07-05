@@ -28,7 +28,7 @@ const VerifyEmail: NextPage = () => {
 
     return (
       <Layout title="Verify Email" isLoggedIn={true}>
-        <h1 style={{fontSize: '3vw', marginTop: '2%'}}>Verify Your Email</h1>
+        <h1 style={{fontSize: '40pt', marginTop: '2%'}}>Verify Your Email</h1>
         <Row style={{marginTop: '2%'}}>
             <Col span={24}>
                 <p style={{marginBottom: '2%'}}>Please enter the verification code that we sent to your email.</p>
@@ -36,7 +36,7 @@ const VerifyEmail: NextPage = () => {
                     name="verifyEmailForm"
                     initialValues={{ remember: true }}
                     autoComplete="off"
-                    layout='inline'
+                    layout='vertical'
                     size='large'
                     >
                     <Form.Item
